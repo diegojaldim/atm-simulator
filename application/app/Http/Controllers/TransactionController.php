@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Http\JsonResponse;
+use App\Exceptions\BanknotesException;
+use App\Http\Response\SuccessResponse;
+use App\Http\Response\ErrorResponse;
 use App\Helpers\Banknotes;
 
 
@@ -12,15 +14,25 @@ class TransactionController extends Controller
 
     public function withdraw()
     {
-        $banknotes = Banknotes::calculator(150);
+        $value = 20;
 
+        try {
+            $banknotes = Banknotes::calculator($value);
 
-        return new JsonResponse([
-            'value' => 150,
-            'banknotes' => [
-                100, 50
-            ]
-        ]);
+            return new SuccessResponse([
+                'value' => $value,
+                'banknotes' => $banknotes,
+            ]);
+
+        } catch (BanknotesException $e) {
+            return new ErrorResponse([
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ]);
+        } catch (\Exception $e) {
+            return new ErrorResponse($e->getMessage());
+        }
+
     }
 
 }
