@@ -1,3 +1,4 @@
 .idea/
 application/vendor
 application/.phpunit*
+application/.env
