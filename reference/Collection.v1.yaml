@@ -101,6 +101,23 @@ paths:
                 required:
                   - data
                   - success
+              examples: {}
+        '409':
+          description: Conflict | Usuário já existente
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
       description: Criação de um novo usuário
       requestBody:
         content:
