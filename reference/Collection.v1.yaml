@@ -38,18 +38,7 @@ paths:
                 required:
                   - data
                   - success
-              examples:
-                Get User Alice Smith:
-                  value:
-                    id: 142
-                    firstName: Alice
-                    lastName: Smith
-                    email: alice.smith@gmail.com
-                    dateOfBirth: '1997-10-31'
-                    emailVerified: true
-                    signUpDate: '2019-08-24'
-        '404':
-          description: User Not Found
+              examples: {}
       operationId: withdraw
       description: Permite o usuário realizar saques de conta corrente ou poupança
       requestBody:
