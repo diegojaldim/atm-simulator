@@ -32,6 +32,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
 
     $router->group(['prefix' => 'user/{id}'], function () use ($router) {
         $router->get('/', 'UserController@get');
+        $router->put('/', 'UserController@put');
         $router->delete('/', 'UserController@delete');
     });
 

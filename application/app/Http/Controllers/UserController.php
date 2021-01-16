@@ -32,6 +32,10 @@ class UserController implements ResponseMessages
         $this->userFactory = $userFactory;
     }
 
+    /**
+     * @param Request $request
+     * @return UserResource|ErrorResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function get(Request $request)
     {
         if ($request->id) {
@@ -47,6 +51,10 @@ class UserController implements ResponseMessages
         return UserResource::collection(User::all());
     }
 
+    /**
+     * @param Request $request
+     * @return ErrorResponse|SuccessResponse
+     */
     public function post(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -76,11 +84,43 @@ class UserController implements ResponseMessages
         return new SuccessResponse($user->toArray(), JsonResponse::HTTP_CREATED);
     }
 
-    public function put()
+    /**
+     * @param Request $request
+     * @return ErrorResponse|SuccessResponse
+     */
+    public function put(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'birthday' => 'required|date_format:d/m/Y',
+        ]);
 
+        if ($validator->fails()) {
+            return new ErrorResponse([
+                'message' => self::INVALID_REQUEST,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $userFactory = $this->userFactory->build();
+
+        $user = User::find($request->id);
+
+        if (empty($user)) {
+            return new ErrorResponse(self::USER_NOT_FOUND, JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $user->name = $userFactory['name'];
+        $user->birthday = $userFactory['birthday'];
+        $user->save();
+
+        return new SuccessResponse($user->toArray());
     }
 
+    /**
+     * @param Request $request
+     * @return ErrorResponse|SuccessResponse
+     */
     public function delete(Request $request)
     {
         $user = User::find($request->id);
