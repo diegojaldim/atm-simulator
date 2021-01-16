@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  title: Transactions
+  version: '1.0'
+servers:
+  - url: 'http://172.17.0.1'
+    description: Docker
+paths:
+  /v1/transactions/withdraw:
+    parameters: []
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: Saque realizado com sucesso
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      value:
+                        type: number
+                      banknotes:
+                        type: array
+                        items:
+                          required: []
+                          properties: {}
+                    required:
+                      - value
+                      - banknotes
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: withdraw
+      description: Permite o usuário realizar saques de conta corrente ou poupança
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+        description: Request para realização do saque
+components:
+  schemas: {}
