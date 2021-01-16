@@ -12,6 +12,8 @@ use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\UserResource;
+
 
 class UserController implements ResponseMessages
 {
@@ -30,9 +32,19 @@ class UserController implements ResponseMessages
         $this->userFactory = $userFactory;
     }
 
-    public function get()
+    public function get(Request $request)
     {
+        if ($request->id) {
+            $user = User::find($request->id);
 
+            if (empty($user)) {
+                return new ErrorResponse(self::USER_NOT_FOUND, JsonResponse::HTTP_NOT_FOUND);
+            }
+
+            return new UserResource($user);
+        }
+
+        return UserResource::collection(User::all());
     }
 
     public function post(Request $request)
