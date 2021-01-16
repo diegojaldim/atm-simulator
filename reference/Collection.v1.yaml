@@ -318,7 +318,7 @@ paths:
               type: object
         description: ''
     put:
-      summary: ''
+      summary: Atualizar usuário
       operationId: put-v1-user-id
       responses:
         '200':
