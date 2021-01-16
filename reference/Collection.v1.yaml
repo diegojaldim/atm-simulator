@@ -55,8 +55,46 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - id
+                        - name
+                        - document
+                        - birthday
+                        - created_at
+                        - updated_at
+                      properties:
+                        id:
+                          type: number
+                        name:
+                          type: string
+                          minLength: 1
+                        document:
+                          type: string
+                          minLength: 1
+                        birthday:
+                          type: string
+                          minLength: 1
+                        created_at:
+                          type: string
+                          minLength: 1
+                        updated_at:
+                          type: string
+                          minLength: 1
+                required:
+                  - data
       operationId: get-v1-user
-      description: Lista de usuários
+      description: Retorna lista de usuários cadastrados
     post:
       summary: ''
       operationId: post-v1-user
@@ -170,5 +208,6 @@ paths:
                 - birthday
             examples: {}
         description: ''
+    parameters: []
 components:
   schemas: {}
