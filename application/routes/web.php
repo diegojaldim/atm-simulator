@@ -28,6 +28,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->group(['prefix' => 'user'], function () use ($router) {
 
         $router->get('/', 'UserController@get');
+        $router->post('/', 'UserController@post');
 
     });
 
