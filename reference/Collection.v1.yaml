@@ -1,0 +1,425 @@
+openapi: 3.0.0
+info:
+  title: Transactions
+  version: '1.0'
+servers:
+  - url: 'http://172.17.0.1'
+    description: Docker
+paths:
+  /v1/transactions/withdraw:
+    parameters: []
+    get:
+      summary: Realização de saques
+      tags: []
+      responses:
+        '200':
+          description: Saque realizado com sucesso
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      value:
+                        type: number
+                      banknotes:
+                        type: array
+                        items:
+                          required: []
+                          properties: {}
+                    required:
+                      - value
+                      - banknotes
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples: {}
+      operationId: withdraw
+      description: Permite o usuário realizar saques de conta corrente ou poupança
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+        description: Request para realização do saque
+  /v1/user:
+    get:
+      summary: Lista de usuários
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      required:
+                        - id
+                        - name
+                        - document
+                        - birthday
+                        - created_at
+                        - updated_at
+                      properties:
+                        id:
+                          type: number
+                        name:
+                          type: string
+                          minLength: 1
+                        document:
+                          type: string
+                          minLength: 1
+                        birthday:
+                          type: string
+                          minLength: 1
+                        created_at:
+                          type: string
+                          minLength: 1
+                        updated_at:
+                          type: string
+                          minLength: 1
+                required:
+                  - data
+      operationId: get-v1-user
+      description: Retorna lista de usuários cadastrados
+    post:
+      summary: Cadastro de usuário
+      operationId: post-v1-user
+      responses:
+        '201':
+          description: OK | Usuário criado com sucesso
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        minLength: 1
+                      birthday:
+                        type: string
+                        minLength: 1
+                      document:
+                        type: string
+                        minLength: 1
+                      updated_at:
+                        type: string
+                        minLength: 1
+                      created_at:
+                        type: string
+                        minLength: 1
+                      id:
+                        type: number
+                    required:
+                      - name
+                      - birthday
+                      - document
+                      - updated_at
+                      - created_at
+                      - id
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        minLength: 1
+                      errors:
+                        type: object
+                        properties: {}
+                        required: []
+                    required:
+                      - message
+                      - errors
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+        '409':
+          description: Conflict | Usuário já existente
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+      description: Criação de um novo usuário
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  description: Nome completo
+                document:
+                  type: string
+                  minLength: 1
+                  description: 'Inserir no padrão: 111.222.333-44'
+                birthday:
+                  type: string
+                  minLength: 1
+                  description: 'Inserir no padrão: dd/mm/YYYY'
+              required:
+                - name
+                - document
+                - birthday
+            examples: {}
+        description: ''
+    parameters: []
+  '/v1/user/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID do usuário
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: ID do usuário
+    get:
+      summary: Busca por usuário
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                        minLength: 1
+                      document:
+                        type: string
+                        minLength: 1
+                      birthday:
+                        type: string
+                        minLength: 1
+                      created_at:
+                        type: string
+                        minLength: 1
+                      updated_at:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - name
+                      - document
+                      - birthday
+                      - created_at
+                      - updated_at
+                required:
+                  - data
+        '404':
+          description: Not Found | Usuário não encontrado
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+      operationId: get-v1-user-id
+      description: Retorna usuário por ID
+    delete:
+      summary: Deletar usuário
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+      operationId: delete-v1-user-id
+      description: Deleta um usuário existente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+        description: ''
+    put:
+      summary: ''
+      operationId: put-v1-user-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                        minLength: 1
+                      document:
+                        type: string
+                        minLength: 1
+                      birthday:
+                        type: string
+                        minLength: 1
+                      created_at:
+                        type: string
+                        minLength: 1
+                      updated_at:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - name
+                      - document
+                      - birthday
+                      - created_at
+                      - updated_at
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        minLength: 1
+                      errors:
+                        type: object
+                        properties: {}
+                        required: []
+                    required:
+                      - message
+                      - errors
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  description: Nome completo
+                birthday:
+                  type: string
+                  minLength: 1
+                  description: Inserir no padrão dd/mm/YYYY
+              required:
+                - name
+                - birthday
+components:
+  schemas: {}
