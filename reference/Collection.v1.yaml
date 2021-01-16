@@ -102,6 +102,32 @@ paths:
                   - data
                   - success
               examples: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        minLength: 1
+                      errors:
+                        type: object
+                        properties: {}
+                        required: []
+                    required:
+                      - message
+                      - errors
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
         '409':
           description: Conflict | Usuário já existente
           content:
