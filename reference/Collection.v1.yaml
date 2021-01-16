@@ -48,5 +48,84 @@ paths:
               type: object
               properties: {}
         description: Request para realização do saque
+  /v1/user:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-v1-user
+      description: Lista de usuários
+    post:
+      summary: ''
+      operationId: post-v1-user
+      responses:
+        '201':
+          description: OK | Usuário criado com sucesso
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        minLength: 1
+                      birthday:
+                        type: string
+                        minLength: 1
+                      document:
+                        type: string
+                        minLength: 1
+                      updated_at:
+                        type: string
+                        minLength: 1
+                      created_at:
+                        type: string
+                        minLength: 1
+                      id:
+                        type: number
+                    required:
+                      - name
+                      - birthday
+                      - document
+                      - updated_at
+                      - created_at
+                      - id
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+      description: Criação de um novo usuário
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  description: Nome completo
+                document:
+                  type: string
+                  minLength: 1
+                  description: 'Inserir no padrão: 111.222.333-44'
+                birthday:
+                  type: string
+                  minLength: 1
+                  description: 'Inserir no padrão: dd/mm/YYYY'
+              required:
+                - name
+                - document
+                - birthday
+            examples: {}
+        description: ''
 components:
   schemas: {}
