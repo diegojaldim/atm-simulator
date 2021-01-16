@@ -10,6 +10,8 @@ use App\Http\Response\SuccessResponse;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController implements ResponseMessages
 {
@@ -33,15 +35,28 @@ class UserController implements ResponseMessages
 
     }
 
-    public function post()
+    public function post(Request $request)
     {
-        $request = $this->userFactory->build();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'document' => 'required',
+            'birthday' => 'required|date_format:d/m/Y',
+        ]);
+
+        if ($validator->fails()) {
+            return new ErrorResponse([
+                'message' => self::INVALID_REQUEST,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $userFactory = $this->userFactory->build();
 
         try {
-            $user = User::create($request);
+            $user = User::create($userFactory);
         } catch (QueryException $e) {
             return new ErrorResponse(
-                sprintf(self::USER_ALREADY_EXISTS, $request['document']),
+                sprintf(self::USER_ALREADY_EXISTS, $userFactory['document']),
                 JsonResponse::HTTP_CONFLICT
             );
         }

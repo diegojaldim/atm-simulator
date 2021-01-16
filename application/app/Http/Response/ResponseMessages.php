@@ -9,4 +9,6 @@ interface ResponseMessages
 
     const USER_ALREADY_EXISTS = 'Usuário com cpf %s já existe';
 
+    const INVALID_REQUEST = 'Invalid request';
+
 }
