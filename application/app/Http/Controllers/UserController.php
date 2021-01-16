@@ -81,9 +81,17 @@ class UserController implements ResponseMessages
 
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
+        $user = User::find($request->id);
 
+        if (empty($user)) {
+            return new ErrorResponse(self::USER_NOT_FOUND, JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $user->delete();
+
+        return new SuccessResponse();
     }
 
 }
