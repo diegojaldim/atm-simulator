@@ -17,4 +17,7 @@ interface ResponseMessages
 
     const ACCOUNT_BANK_INVALID_TYPE = 'A conta deve ser %s';
 
+    const ACCOUNT_BANK_ALREADY_EXISTS = 'O usuário já possui conta %s';
+
+
 }

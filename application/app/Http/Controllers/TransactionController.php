@@ -10,6 +10,7 @@ use App\Http\Response\SuccessResponse;
 use App\Http\Response\ErrorResponse;
 use App\Helpers\Banknotes;
 use App\Models\BankAccount;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
@@ -66,7 +67,14 @@ class TransactionController extends Controller implements ResponseMessages
 
         $bankAccountFactory = $this->bankAccountFactory->build();
 
-        $bankAccount = BankAccount::create($bankAccountFactory);
+        try {
+            $bankAccount = BankAccount::create($bankAccountFactory);
+        } catch (QueryException $e) {
+            return new ErrorResponse(
+                sprintf(self::ACCOUNT_BANK_ALREADY_EXISTS, $bankAccountFactory['type']),
+                JsonResponse::HTTP_CONFLICT
+            );
+        }
 
         return new SuccessResponse(new BankAccountResource($bankAccount), JsonResponse::HTTP_CREATED);
     }
