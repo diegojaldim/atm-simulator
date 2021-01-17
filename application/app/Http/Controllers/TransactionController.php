@@ -2,16 +2,27 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Exceptions\BanknotesException;
+use App\Factory\BankAccountFactory;
+use App\Http\Resources\BankAccountResource;
 use App\Http\Response\SuccessResponse;
 use App\Http\Response\ErrorResponse;
 use App\Helpers\Banknotes;
+use App\Models\BankAccount;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 
 class TransactionController extends Controller
 {
+
+    /** @var BankAccountFactory */
+    protected $bankAccountFactory;
+
+    public function __construct(BankAccountFactory $bankAccountFactory)
+    {
+        $this->bankAccountFactory = $bankAccountFactory;
+    }
 
     public function withdraw()
     {
@@ -38,7 +49,11 @@ class TransactionController extends Controller
 
     public function bankAccount(Request $request)
     {
+        $bankAccountFactory = $this->bankAccountFactory->build();
 
+        $bankAccount = BankAccount::create($bankAccountFactory);
+
+        return new SuccessResponse(new BankAccountResource($bankAccount), JsonResponse::HTTP_CREATED);
     }
 
 }
