@@ -81,7 +81,7 @@ class UserController implements ResponseMessages
             );
         }
 
-        return new SuccessResponse($user->toArray(), JsonResponse::HTTP_CREATED);
+        return new SuccessResponse(new UserResource($user), JsonResponse::HTTP_CREATED);
     }
 
     /**

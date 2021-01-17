@@ -72,6 +72,10 @@ $app->configure('app');
 |
 */
 
+$app->routeMiddleware([
+    'user' => \App\Http\Middleware\UserMiddleware::class
+]);
+
 // $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
