@@ -421,5 +421,124 @@ paths:
               required:
                 - name
                 - birthday
+  /v1/transactions/bank-account:
+    post:
+      summary: Abertura de conta
+      tags: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      user_id:
+                        type: number
+                      type:
+                        type: string
+                        minLength: 1
+                      bank_balance:
+                        type: number
+                      created_at:
+                        type: string
+                        minLength: 1
+                      updated_at:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - user_id
+                      - type
+                      - bank_balance
+                      - created_at
+                      - updated_at
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Header x-api-user-id vazio:
+                  value:
+                    data: Header x-api-user-id não encontrado
+                    success: false
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Usuário não encontrado:
+                  value:
+                    data: Usuário não encontrado
+                    success: false
+      operationId: post-v1-transactions-bank-account
+      description: Abertura de conta corrente ou poupança para usuário
+      parameters:
+        - schema:
+            type: integer
+          in: header
+          name: x-api-user-id
+          description: ID do usuário
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                type:
+                  type: string
+                  minLength: 1
+                  description: O valor deve ser 'poupanca' ou 'corrente'
+                bank_balance:
+                  type: number
+              required:
+                - type
+                - bank_balance
+            examples:
+              Exemplo de conta corrente:
+                value:
+                  type: corrente
+                  bank_balance: 100
+              Exemplo de conta poupança:
+                value:
+                  type: poupanca
+                  bank_balance: 50
 components:
   schemas: {}
