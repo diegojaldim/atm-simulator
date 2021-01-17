@@ -38,7 +38,7 @@ class TransactionController extends Controller
 
     public function bankAccount(Request $request)
     {
-        
+
     }
 
 }
