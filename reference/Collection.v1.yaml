@@ -464,8 +464,44 @@ paths:
                 required:
                   - data
                   - success
+              examples:
+                Conta criada com sucesso:
+                  value:
+                    data:
+                      id: 14
+                      user_id: 1
+                      type: poupanca
+                      bank_balance: 100
+                      created_at: '2021-01-17T18:17:11.000000Z'
+                      updated_at: '2021-01-17T18:17:11.000000Z'
+                    success: true
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Campo inválido:
+                  value:
+                    data:
+                      message: Invalid request
+                      errors:
+                        type:
+                          - The type field is required.
+                    success: false
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
@@ -485,23 +521,6 @@ paths:
                   value:
                     data: Header x-api-user-id não encontrado
                     success: false
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  data:
-                    type: string
-                    minLength: 1
-                  success:
-                    type: boolean
-                required:
-                  - data
-                  - success
-              examples:
                 Usuário não encontrado:
                   value:
                     data: Usuário não encontrado
