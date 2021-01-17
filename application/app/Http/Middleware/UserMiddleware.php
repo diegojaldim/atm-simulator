@@ -3,11 +3,12 @@
 namespace App\Http\Middleware;
 
 use App\Http\Response\ErrorResponse;
+use App\Http\Response\ResponseMessages;
 use Closure;
 use App\Models\User;
 
 
-class UserMiddleware
+class UserMiddleware implements ResponseMessages
 {
 
     /**
@@ -22,13 +23,13 @@ class UserMiddleware
         $userID = $request->header('x-api-user-id');
 
         if (empty($userID)) {
-            return new ErrorResponse('Header x-api-user-id não encontrado');
+            return new ErrorResponse(self::X_API_USER_ID_NOT_FOUND, 401);
         }
 
         $user = User::find($userID);
 
         if (empty($user)) {
-            return new ErrorResponse('Usuário não encontrado');
+            return new ErrorResponse(self::USER_NOT_FOUND, 401);
         }
 
         $request->user = $user;

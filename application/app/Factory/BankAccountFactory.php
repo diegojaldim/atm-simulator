@@ -9,6 +9,14 @@ class BankAccountFactory
 {
 
     /**
+     * @const array
+     */
+    const ACCOUNT_TYPE = [
+        'corrente' => 'corrente',
+        'poupanca' => 'poupanca',
+    ];
+
+    /**
      * @var Request $request
      */
     protected $request;

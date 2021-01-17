@@ -13,4 +13,8 @@ interface ResponseMessages
 
     const INVALID_REQUEST = 'Invalid request';
 
+    const X_API_USER_ID_NOT_FOUND = 'Header x-api-user-id não encontrado';
+
+    const ACCOUNT_BANK_INVALID_TYPE = 'A conta deve ser %s';
+
 }
