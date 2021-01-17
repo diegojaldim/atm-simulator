@@ -7,6 +7,7 @@ use App\Exceptions\BanknotesException;
 use App\Http\Response\SuccessResponse;
 use App\Http\Response\ErrorResponse;
 use App\Helpers\Banknotes;
+use Illuminate\Http\Request;
 
 
 class TransactionController extends Controller
@@ -33,6 +34,11 @@ class TransactionController extends Controller
             return new ErrorResponse($e->getMessage());
         }
 
+    }
+
+    public function bankAccount(Request $request)
+    {
+        
     }
 
 }
