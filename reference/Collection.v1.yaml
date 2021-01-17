@@ -525,6 +525,27 @@ paths:
                   value:
                     data: Usuário não encontrado
                     success: false
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Conta já existente:
+                  value:
+                    data: O usuário já possui conta poupanca
+                    success: false
       operationId: post-v1-transactions-bank-account
       description: Abertura de conta corrente ou poupança para usuário
       parameters:
