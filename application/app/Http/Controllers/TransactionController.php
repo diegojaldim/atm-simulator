@@ -91,7 +91,7 @@ class TransactionController extends Controller implements ResponseMessages
                     }
                 }
             ],
-            'bank_balance' => 'required',
+            'bank_balance' => 'required|numeric',
         ];
     }
 
