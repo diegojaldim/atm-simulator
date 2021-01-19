@@ -666,6 +666,7 @@ paths:
                   minLength: 1
                 bank_balance:
                   type: number
+                  description: Valor que será depositado na conta do usuário
               required:
                 - type
                 - bank_balance
@@ -674,5 +675,10 @@ paths:
                 value:
                   type: poupanca
                   bank_balance: 150
+              Depósito de conta corrente:
+                value:
+                  type: corrente
+                  bank_balance: 150
+        description: ''
 components:
   schemas: {}
