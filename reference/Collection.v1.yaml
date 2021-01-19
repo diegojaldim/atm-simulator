@@ -580,5 +580,99 @@ paths:
                 value:
                   type: poupanca
                   bank_balance: 50
+  /v1/transactions/bank-deposit:
+    patch:
+      summary: Realizar Depósito
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      user_id:
+                        type: number
+                      type:
+                        type: string
+                        minLength: 1
+                      bank_balance:
+                        type: number
+                      created_at:
+                        type: string
+                        minLength: 1
+                      updated_at:
+                        type: string
+                        minLength: 1
+                    required:
+                      - id
+                      - user_id
+                      - type
+                      - bank_balance
+                      - created_at
+                      - updated_at
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Conta não encontrada:
+                  value:
+                    data: Conta não encontrada
+                    success: false
+      operationId: patch-v1-transactions-bank-deposit
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-api-user-id
+          required: true
+          description: ID do usuário
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                type:
+                  type: string
+                  minLength: 1
+                bank_balance:
+                  type: number
+              required:
+                - type
+                - bank_balance
+            examples:
+              Depósito de conta poupança:
+                value:
+                  type: poupanca
+                  bank_balance: 150
 components:
   schemas: {}
