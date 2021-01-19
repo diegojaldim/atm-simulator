@@ -75,7 +75,7 @@ class TransactionController extends Controller implements ResponseMessages
             return new ErrorResponse(self::ACCOUNT_BANK_NOT_FOUND, JsonResponse::HTTP_NOT_FOUND);
         }
 
-        $bankAccountModel->bank_balance += $request->input('value');
+        $bankAccountModel->bank_balance += $request->input('bank_balance');
 
         $bankAccount = $this->dispatchNow(new BankDepositJob($bankAccountModel));
 
