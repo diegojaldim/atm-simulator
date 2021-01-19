@@ -2,15 +2,30 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Exceptions\BanknotesException;
+use App\Factory\BankAccountFactory;
+use App\Http\Resources\BankAccountResource;
+use App\Http\Response\ResponseMessages;
 use App\Http\Response\SuccessResponse;
 use App\Http\Response\ErrorResponse;
 use App\Helpers\Banknotes;
+use App\Models\BankAccount;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 
 
-class TransactionController extends Controller
+class TransactionController extends Controller implements ResponseMessages
 {
+
+    /** @var BankAccountFactory */
+    protected $bankAccountFactory;
+
+    public function __construct(BankAccountFactory $bankAccountFactory)
+    {
+        $this->bankAccountFactory = $bankAccountFactory;
+    }
 
     public function withdraw()
     {
@@ -33,6 +48,59 @@ class TransactionController extends Controller
             return new ErrorResponse($e->getMessage());
         }
 
+    }
+
+    /**
+     * @param Request $request
+     * @return ErrorResponse|SuccessResponse
+     */
+    public function bankAccount(Request $request)
+    {
+        $validator = Validator::make($request->all(), $this->validateBankAccountInsert());
+
+        if ($validator->fails()) {
+            return new ErrorResponse([
+                'message' => self::INVALID_REQUEST,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $bankAccountFactory = $this->bankAccountFactory->build();
+
+        try {
+            $bankAccount = BankAccount::create($bankAccountFactory);
+        } catch (QueryException $e) {
+            return new ErrorResponse(
+                sprintf(self::ACCOUNT_BANK_ALREADY_EXISTS, $bankAccountFactory['type']),
+                JsonResponse::HTTP_CONFLICT
+            );
+        }
+
+        return new SuccessResponse(new BankAccountResource($bankAccount), JsonResponse::HTTP_CREATED);
+    }
+
+    /**
+     * @return array
+     */
+    protected function validateBankAccountInsert()
+    {
+        return [
+            'type' => [
+                'required',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if (!in_array($value, BankAccountFactory::ACCOUNT_TYPE)) {
+                        $fail(
+                            sprintf(
+                                self::ACCOUNT_BANK_INVALID_TYPE,
+                                implode(' | ', BankAccountFactory::ACCOUNT_TYPE)
+                            )
+                        );
+                    }
+                }
+            ],
+            'bank_balance' => 'required|numeric',
+        ];
     }
 
 }
