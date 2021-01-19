@@ -18,4 +18,14 @@ class BankAccount extends Model
         'bank_balance',
     ];
 
+    /**
+     * @param $userId
+     * @param $type
+     * @return Model
+     */
+    public static function getByUserAndType($userId, $type)
+    {
+        return self::where('user_id', '=', $userId)->where('type', '=', $type)->first();
+    }
+
 }

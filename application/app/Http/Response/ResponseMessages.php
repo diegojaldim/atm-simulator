@@ -19,5 +19,7 @@ interface ResponseMessages
 
     const ACCOUNT_BANK_ALREADY_EXISTS = 'O usuário já possui conta %s';
 
+    const ACCOUNT_BANK_NOT_FOUND = 'Conta não encontrada';
+
 
 }

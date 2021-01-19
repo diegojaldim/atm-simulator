@@ -23,6 +23,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
 
         $router->get('withdraw', 'TransactionController@withdraw');
         $router->post('bank-account', 'TransactionController@bankAccount');
+        $router->patch('bank-deposit', 'TransactionController@bankDeposit');
 
     });
 

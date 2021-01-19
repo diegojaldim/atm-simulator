@@ -14,6 +14,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\BankDepositJob;
 
 
 class TransactionController extends Controller implements ResponseMessages
@@ -54,9 +55,40 @@ class TransactionController extends Controller implements ResponseMessages
      * @param Request $request
      * @return ErrorResponse|SuccessResponse
      */
+    public function bankDeposit(Request $request)
+    {
+        $validator = Validator::make($request->all(), $this->validateBankAccountRequest());
+
+        if ($validator->fails()) {
+            return new ErrorResponse([
+                'message' => self::INVALID_REQUEST,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $bankAccountModel = BankAccount::getByUserAndType(
+            $request->user->id,
+            $request->input('type')
+        );
+
+        if (!$bankAccountModel instanceof BankAccount) {
+            return new ErrorResponse(self::ACCOUNT_BANK_NOT_FOUND, JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $bankAccountModel->bank_balance += $request->input('value');
+
+        $bankAccount = $this->dispatchNow(new BankDepositJob($bankAccountModel));
+
+        return new SuccessResponse(new BankAccountResource($bankAccount));
+    }
+
+    /**
+     * @param Request $request
+     * @return ErrorResponse|SuccessResponse
+     */
     public function bankAccount(Request $request)
     {
-        $validator = Validator::make($request->all(), $this->validateBankAccountInsert());
+        $validator = Validator::make($request->all(), $this->validateBankAccountRequest());
 
         if ($validator->fails()) {
             return new ErrorResponse([
@@ -82,7 +114,7 @@ class TransactionController extends Controller implements ResponseMessages
     /**
      * @return array
      */
-    protected function validateBankAccountInsert()
+    protected function validateBankAccountRequest()
     {
         return [
             'type' => [
