@@ -6,48 +6,6 @@ servers:
   - url: 'http://172.17.0.1'
     description: Docker
 paths:
-  /v1/transactions/withdraw:
-    parameters: []
-    get:
-      summary: Realização de saques
-      tags: []
-      responses:
-        '200':
-          description: Saque realizado com sucesso
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      value:
-                        type: number
-                      banknotes:
-                        type: array
-                        items:
-                          required: []
-                          properties: {}
-                    required:
-                      - value
-                      - banknotes
-                  success:
-                    type: boolean
-                required:
-                  - data
-                  - success
-              examples: {}
-      operationId: withdraw
-      description: Permite o usuário realizar saques de conta corrente ou poupança
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
-        description: Request para realização do saque
   /v1/user:
     get:
       summary: Lista de usuários
@@ -649,7 +607,7 @@ paths:
       operationId: patch-v1-transactions-bank-deposit
       parameters:
         - schema:
-            type: string
+            type: integer
           in: header
           name: x-api-user-id
           required: true
@@ -792,7 +750,7 @@ paths:
       operationId: 'patch-http:-172.17.0.1-v1-transactions-bank-draft'
       parameters:
         - schema:
-            type: number
+            type: integer
           in: header
           name: x-api-user-id
           required: true
