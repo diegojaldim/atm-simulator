@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
-  title: Transactions
+  title: ATM Simulator API
   version: '1.0'
 servers:
   - url: 'http://172.17.0.1'
-    description: Docker
+    description: Docker IP
 paths:
   /v1/user:
     get:
@@ -782,3 +782,4 @@ paths:
     parameters: []
 components:
   schemas: {}
+  securitySchemes: {}
