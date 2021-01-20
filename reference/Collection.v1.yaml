@@ -8,7 +8,7 @@ servers:
 paths:
   /v1/user:
     get:
-      summary: Lista de usuários
+      summary: User | Lista de usuários
       tags: []
       responses:
         '200':
@@ -54,7 +54,7 @@ paths:
       operationId: get-v1-user
       description: Retorna lista de usuários cadastrados
     post:
-      summary: Cadastro de usuário
+      summary: User | Cadastrar
       operationId: post-v1-user
       responses:
         '201':
@@ -181,7 +181,7 @@ paths:
         in: path
         description: ID do usuário
     get:
-      summary: Busca por usuário
+      summary: User | Buscar usuário
       tags: []
       responses:
         '200':
@@ -240,7 +240,7 @@ paths:
       operationId: get-v1-user-id
       description: Retorna usuário por ID
     delete:
-      summary: Deletar usuário
+      summary: User | Deletar
       tags: []
       responses:
         '200':
@@ -276,7 +276,7 @@ paths:
               type: object
         description: ''
     put:
-      summary: Atualizar usuário
+      summary: User | Atualizar
       operationId: put-v1-user-id
       responses:
         '200':
@@ -381,7 +381,7 @@ paths:
                 - birthday
   /v1/transactions/bank-account:
     post:
-      summary: Abertura de conta
+      summary: Transactions | Abertura de conta
       tags: []
       responses:
         '201':
@@ -540,7 +540,7 @@ paths:
                   bank_balance: 50
   /v1/transactions/bank-deposit:
     patch:
-      summary: Realizar Depósito
+      summary: Transactions | Depósito
       tags: []
       responses:
         '200':
@@ -640,7 +640,7 @@ paths:
         description: ''
   /v1/transactions/bank-draft:
     patch:
-      summary: Saques
+      summary: Transactions | Saques
       tags: []
       responses:
         '200':
