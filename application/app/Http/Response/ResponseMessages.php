@@ -21,5 +21,9 @@ interface ResponseMessages
 
     const ACCOUNT_BANK_NOT_FOUND = 'Conta não encontrada';
 
+    const ACCOUNT_BANK_INVALID_BANKNOTES = 'Não foi possível realizar o saque. Cédulas inválidas';
+
+    const ACCOUNT_BANK_INSUFFICIENT_FOUNDS = 'Saldo insuficiente';
+
 
 }
