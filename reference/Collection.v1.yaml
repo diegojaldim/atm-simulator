@@ -2,9 +2,32 @@ openapi: 3.0.0
 info:
   title: ATM Simulator API
   version: '1.0'
-servers:
-  - url: 'http://172.17.0.1'
-    description: Docker IP
+  description: |
+    Simulador de Caixa Eletrônico com as seguintes funcionalidades:
+
+    - CRUD de usuários;
+    - Realização de saques, depósitos e abertura de contas;
+
+    ---
+
+    ##### Saques:
+    Os saques serão realizados utilizando as notas de R$ 100, R$ 50 e R$ 20, por ordem de prioridade, respectivamente. Caso o valor enviado para a realização do saque seja inválido, a API retornará a informação de erro.
+
+    ---
+
+    ##### Depósitos:
+    Depósitos deverão ser realizados com valores a partir de R$ 1,00.
+
+    ---
+
+    ##### Abertura de contas:
+    O usuário pode abrir conta corrente ou poupança e já realizar o primeiro depósito. Um usuário pode ter uma conta corrente e poupança. A API possui validação para evitar duplicidade de contas bancárias.
+
+    ---
+
+    ##### Autenticação de transações bancárias
+    Todas as transações citadas acima devem possuir o ID do usuário (x-api-user-id) sendo passado no header da API. Caso o valor não seja informado ou o usuário ainda não esteja cadastrado, a API retornará erro na transação.
+servers: []
 paths:
   /v1/user:
     get:
