@@ -680,5 +680,147 @@ paths:
                   type: corrente
                   bank_balance: 150
         description: ''
+  /v1/transactions/bank-draft:
+    patch:
+      summary: Saques
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: object
+                    required:
+                      - id
+                      - user_id
+                      - type
+                      - bank_balance
+                      - created_at
+                      - updated_at
+                      - banknotes
+                    properties:
+                      id:
+                        type: number
+                      user_id:
+                        type: number
+                      type:
+                        type: string
+                        minLength: 1
+                      bank_balance:
+                        type: number
+                        description: Saldo da conta
+                      created_at:
+                        type: string
+                        minLength: 1
+                      updated_at:
+                        type: string
+                        minLength: 1
+                      banknotes:
+                        type: array
+                        description: Array com as cédulas calculadas
+                        items:
+                          type: object
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Saque:
+                  value:
+                    data:
+                      id: 1
+                      user_id: 1
+                      type: poupanca
+                      bank_balance: 1120
+                      created_at: '2021-01-19T22:01:47.000000Z'
+                      updated_at: '2021-01-20T00:12:28.000000Z'
+                      banknotes:
+                        - 50
+                        - 20
+                        - 20
+                        - 20
+                        - 20
+                    success: true
+        '401':
+          description: Unauthorized | Saldo insificiente
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Saldo insuficiente:
+                  value:
+                    data: Saldo insuficiente
+                    success: false
+        '406':
+          description: Not Acceptable | Saque com valor inválido
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: string
+                    minLength: 1
+                  success:
+                    type: boolean
+                required:
+                  - data
+                  - success
+              examples:
+                Saque com valor inválido:
+                  value:
+                    data: Não foi possível realizar o saque. Cédulas inválidas
+                    success: false
+      operationId: 'patch-http:-172.17.0.1-v1-transactions-bank-draft'
+      parameters:
+        - schema:
+            type: number
+          in: header
+          name: x-api-user-id
+          required: true
+          description: ID do usuário
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                type:
+                  type: string
+                  minLength: 1
+                bank_balance:
+                  type: number
+              required:
+                - type
+                - bank_balance
+            examples:
+              Saque de conta-corrente:
+                value:
+                  type: corrente
+                  bank_balance: 90
+              Saque de conta poupança:
+                value:
+                  type: poupanca
+                  bank_balance: 90
+    parameters: []
 components:
   schemas: {}
