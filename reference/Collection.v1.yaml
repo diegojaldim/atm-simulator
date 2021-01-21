@@ -66,6 +66,34 @@ paths:
                         birthday:
                           type: string
                           minLength: 1
+                        bank_account:
+                          type: array
+                          uniqueItems: true
+                          minItems: 1
+                          items:
+                            required:
+                              - id
+                              - user_id
+                              - type
+                              - bank_balance
+                              - created_at
+                              - updated_at
+                            properties:
+                              id:
+                                type: number
+                              user_id:
+                                type: number
+                              type:
+                                type: string
+                                minLength: 1
+                              bank_balance:
+                                type: number
+                              created_at:
+                                type: string
+                                minLength: 1
+                              updated_at:
+                                type: string
+                                minLength: 1
                         created_at:
                           type: string
                           minLength: 1
@@ -74,6 +102,74 @@ paths:
                           minLength: 1
                 required:
                   - data
+              examples:
+                Exemplo:
+                  value:
+                    data:
+                      - id: 2
+                        name: Otávio Feliciano Filho
+                        document: '61545558817'
+                        birthday: '1986-01-31'
+                        bank_account:
+                          - id: 4
+                            user_id: 2
+                            type: corrente
+                            bank_balance: 100
+                            created_at: '2021-01-21T00:09:33.000000Z'
+                            updated_at: '2021-01-21T00:09:33.000000Z'
+                          - id: 3
+                            user_id: 2
+                            type: poupanca
+                            bank_balance: 1353.8
+                            created_at: '2021-01-21T00:09:33.000000Z'
+                            updated_at: '2021-01-21T11:30:46.000000Z'
+                        created_at: '2021-01-21T00:09:33.000000Z'
+                        updated_at: '2021-01-21T00:09:33.000000Z'
+                      - id: 3
+                        name: Sr. Davi Ortega
+                        document: '81244593559'
+                        birthday: '1995-10-31'
+                        bank_account:
+                          - id: 6
+                            user_id: 3
+                            type: corrente
+                            bank_balance: 100
+                            created_at: '2021-01-21T00:11:13.000000Z'
+                            updated_at: '2021-01-21T00:11:13.000000Z'
+                          - id: 5
+                            user_id: 3
+                            type: poupanca
+                            bank_balance: 100
+                            created_at: '2021-01-21T00:11:13.000000Z'
+                            updated_at: '2021-01-21T00:11:13.000000Z'
+                        created_at: '2021-01-21T00:11:13.000000Z'
+                        updated_at: '2021-01-21T00:11:13.000000Z'
+                      - id: 4
+                        name: Sr. Guilherme Christian Corona
+                        document: '87959663823'
+                        birthday: '1983-06-25'
+                        bank_account:
+                          - id: 8
+                            user_id: 4
+                            type: corrente
+                            bank_balance: 100
+                            created_at: '2021-01-21T00:11:56.000000Z'
+                            updated_at: '2021-01-21T00:11:56.000000Z'
+                          - id: 7
+                            user_id: 4
+                            type: poupanca
+                            bank_balance: 100
+                            created_at: '2021-01-21T00:11:56.000000Z'
+                            updated_at: '2021-01-21T00:11:56.000000Z'
+                        created_at: '2021-01-21T00:11:56.000000Z'
+                        updated_at: '2021-01-21T00:11:56.000000Z'
+                      - id: 8
+                        name: Inácio da Silva
+                        document: '55328873572'
+                        birthday: '2000-11-11'
+                        bank_account: []
+                        created_at: '2021-01-21T11:52:56.000000Z'
+                        updated_at: '2021-01-21T11:52:56.000000Z'
       operationId: get-v1-user
       description: Retorna lista de usuários cadastrados
     post:
@@ -90,13 +186,26 @@ paths:
                 properties:
                   data:
                     type: object
+                    required:
+                      - name
+                      - birthday
+                      - document
+                      - updated_at
+                      - created_at
+                      - id
+                      - bank_account
                     properties:
+                      id:
+                        type: number
                       name:
                         type: string
                         minLength: 1
                       birthday:
                         type: string
                         minLength: 1
+                      bank_account:
+                        type: array
+                        items: {}
                       document:
                         type: string
                         minLength: 1
@@ -106,15 +215,6 @@ paths:
                       created_at:
                         type: string
                         minLength: 1
-                      id:
-                        type: number
-                    required:
-                      - name
-                      - birthday
-                      - document
-                      - updated_at
-                      - created_at
-                      - id
                   success:
                     type: boolean
                 required:
@@ -229,6 +329,34 @@ paths:
                       birthday:
                         type: string
                         minLength: 1
+                      bank_account:
+                        type: array
+                        uniqueItems: true
+                        minItems: 1
+                        items:
+                          required:
+                            - id
+                            - user_id
+                            - type
+                            - bank_balance
+                            - created_at
+                            - updated_at
+                          properties:
+                            id:
+                              type: number
+                            user_id:
+                              type: number
+                            type:
+                              type: string
+                              minLength: 1
+                            bank_balance:
+                              type: number
+                            created_at:
+                              type: string
+                              minLength: 1
+                            updated_at:
+                              type: string
+                              minLength: 1
                       created_at:
                         type: string
                         minLength: 1
@@ -240,10 +368,34 @@ paths:
                       - name
                       - document
                       - birthday
+                      - bank_account
                       - created_at
                       - updated_at
                 required:
                   - data
+              examples:
+                Exemplo:
+                  value:
+                    data:
+                      id: 2
+                      name: Otávio Feliciano Filho
+                      document: '61545558817'
+                      birthday: '1986-01-31'
+                      bank_account:
+                        - id: 4
+                          user_id: 2
+                          type: corrente
+                          bank_balance: 100
+                          created_at: '2021-01-21T00:09:33.000000Z'
+                          updated_at: '2021-01-21T00:09:33.000000Z'
+                        - id: 3
+                          user_id: 2
+                          type: poupanca
+                          bank_balance: 1353.8
+                          created_at: '2021-01-21T00:09:33.000000Z'
+                          updated_at: '2021-01-21T11:30:46.000000Z'
+                      created_at: '2021-01-21T00:09:33.000000Z'
+                      updated_at: '2021-01-21T00:09:33.000000Z'
         '404':
           description: Not Found | Usuário não encontrado
           content:
