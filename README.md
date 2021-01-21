@@ -42,3 +42,7 @@ Migrations:
 ```
 php artisan migrate 
 ```
+#### Testes:
+``` 
+vendor/bin/phpunit
+``` 
