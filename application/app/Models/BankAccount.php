@@ -28,4 +28,12 @@ class BankAccount extends Model
         return self::where('user_id', '=', $userId)->where('type', '=', $type)->first();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
