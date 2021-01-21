@@ -15,6 +15,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'document' => $this->document,
             'birthday' => $this->birthday,
+            'bank_account' => BankAccountResource::collection($this->bankAccounts),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
