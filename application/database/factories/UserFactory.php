@@ -23,7 +23,8 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+             'document' => $this->faker->cpf,
+             'birthday' => $this->faker->date('d/m/Y'),
         ];
     }
 }
